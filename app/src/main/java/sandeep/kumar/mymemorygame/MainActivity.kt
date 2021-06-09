@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import sandeep.kumar.mymemorygame.models.BoardSize
+import sandeep.kumar.mymemorygame.utils.DEFAULT_ICONS
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,6 +14,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvBoard: RecyclerView
     private lateinit var tvNumMoves: TextView
     private lateinit var tvNumPairs: TextView
+
+    private var boardSize= BoardSize.HARD
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,11 +26,14 @@ class MainActivity : AppCompatActivity() {
         tvNumMoves = findViewById(R.id.tvNumMoves)
         tvNumPairs = findViewById(R.id.tvNumPairs)
 
+        val chosenImages = DEFAULT_ICONS.shuffled().take(boardSize.getNumPairs())
+        val randomImages =(chosenImages +chosenImages).shuffled()
+
         //adapter  provide binding for the data set to the view of the recyclerview
-        rvBoard.adapter =MemoryBoardAdapter(this,8)
+        rvBoard.adapter =MemoryBoardAdapter(this,boardSize,randomImages)
         rvBoard.setHasFixedSize(true)
         //Layout manager is used for measure and positions item view
-        rvBoard.layoutManager =GridLayoutManager(this,2)
+        rvBoard.layoutManager =GridLayoutManager(this,boardSize.getWidth())
 
     }
 }
