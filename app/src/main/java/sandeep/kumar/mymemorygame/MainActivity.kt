@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sandeep.kumar.mymemorygame.models.BoardSize
+import sandeep.kumar.mymemorygame.models.MemoryCard
 import sandeep.kumar.mymemorygame.utils.DEFAULT_ICONS
 
 class MainActivity : AppCompatActivity() {
@@ -29,8 +30,13 @@ class MainActivity : AppCompatActivity() {
         val chosenImages = DEFAULT_ICONS.shuffled().take(boardSize.getNumPairs())
         val randomImages =(chosenImages +chosenImages).shuffled()
 
+        val memoryCards =  randomImages.map {
+           MemoryCard(it)
+        }
+
+
         //adapter  provide binding for the data set to the view of the recyclerview
-        rvBoard.adapter =MemoryBoardAdapter(this,boardSize,randomImages)
+        rvBoard.adapter =MemoryBoardAdapter(this,boardSize,memoryCards)
         rvBoard.setHasFixedSize(true)
         //Layout manager is used for measure and positions item view
         rvBoard.layoutManager =GridLayoutManager(this,boardSize.getWidth())
